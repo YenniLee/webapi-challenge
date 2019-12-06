@@ -1,5 +1,6 @@
 const express = require("express");
 const Project = require('../data/helpers/projectModel.js');
+const Action = require("../data/helpers/actionModel.js");
 
 const router = express.Router();
 
@@ -63,6 +64,23 @@ router.get("/:id/actions", validateId, (req, res) => {
         })
 });
 
+// WORK IN PROGRESS to add action to specific project
+router.post(":/id/actions", validateId, (req, res) => {
+    const { project_id, description, notes} = req.body;
+    if(Object.entries(req.body).length === 0) {
+        res.status(400).json({ message: "No body data." })
+    } else if (!project_id || !description || !notes) {
+        res.status(400).json({ message: `Missing required fields data.` })
+    } else {
+        Action.insert(req.body)
+            .then(action => {
+                res.status(201).json(action);
+            })
+            .catch(err => {
+                res.status(500).json({ message: `Unable to add action to specified project. ${err}` })
+            })
+    }
+});
 
 
 // middleware 
