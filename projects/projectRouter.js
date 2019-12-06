@@ -29,6 +29,28 @@ router.post("/", validateProject, (req, res) => {
         })
 });
 
+router.delete("/:id", validateId, (req, res) => {
+    const { id } = req.params;
+    Project.remove(id)
+        .then(projectToDelete => {
+            res.status(204).json(req.project);
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Unable to remove project. ${err}` })
+        })
+});
+
+router.put("/:id", validateId, validateProject, (req, res) => {
+    const { id } = req.params;
+    Project.update(id, req.body) 
+        .then(project => {
+            res.status(200).json(project);
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Unable to update project. ${err}` })
+        })
+});
+
 
 
 // middleware 
