@@ -41,13 +41,14 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 - [ ] Mention two parts of Express that you learned about this week.
 
     Express is a nodeJS framework that has routing and convenience helpers built in to add functionality to node programs. 
-    
+
 - [ ] Describe Middleware?
 
     Middleware are functions that we run in a specific order that will perform some action on our code. 
 
 - [ ] Describe a Resource?
 
+    Everything is considered a resource in a RESTful API, and each resource is identified by a URI and located by a specific URL.s
 
 - [ ] What can the API return to help clients know if a request was successful?
 
