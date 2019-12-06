@@ -40,6 +40,18 @@ router.delete("/:id", validateId, (req, res) => {
         })
 });
 
+////////******************************************* */
+router.put("/:id", validateId, validateAction, (req, res) => {
+    const { id } = req.params;
+    Action.update(id, req.body)
+        .then(action => {
+            res.status(200).json(action);
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Unable to edit action. ${err}` })
+        })
+});
+
 
 
 
@@ -65,7 +77,7 @@ function validateAction(req, res, next) {
     const { project_id, description, notes } = req.body;
 
     if(Object.entries(req.body).length === 0) {
-        res.status(400).json({ message: "Missing required text field." });
+        res.status(400).json({ message: "No body data." });
     } else if(!project_id || !description || !notes) {
         res.status(400).json({ message: "Please input project_id, description, and notes." })
     } else {
