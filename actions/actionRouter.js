@@ -19,6 +19,29 @@ router.get("/:id", validateId, (req, res) => {
     res.status(200).json(req.action);
 });
 
+router.post("/", validateId, validateAction, (req, res) => {
+    Action.insert(req.body)
+        .then(newAction => {
+            res.status(201).json(newAction);
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Error adding action. ${err}` })
+        })
+});
+
+router.delete("/:id", validateId, (req, res) => {
+    const { id } = req.params;
+    Action.remove(id)
+        .then(actionToDelete => {
+            res.status(204).json(req.action);
+        })
+        .catch(err => {
+            res.status(500).json({ message: `Unable to delete action. ${err}` })
+        })
+});
+
+
+
 
 // middleware 
 
@@ -36,4 +59,16 @@ function validateId(req, res, next) {
         .catch(err => {
             res.status(500).json({ message: `Unable to get actions from the database. ${err}` })
         })
+};
+
+function validateAction(req, res, next) {
+    const { project_id, description, notes } = req.body;
+
+    if(Object.entries(req.body).length === 0) {
+        res.status(400).json({ message: "Missing required text field." });
+    } else if(!project_id || !description || !notes) {
+        res.status(400).json({ message: "Please input project_id, description, and notes." })
+    } else {
+        next();
+    }
 };
