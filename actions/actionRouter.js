@@ -40,7 +40,6 @@ router.delete("/:id", validateId, (req, res) => {
         })
 });
 
-////////******************************************* */
 router.put("/:id", validateId, validateAction, (req, res) => {
     const { id } = req.params;
     Action.update(id, req.body)
